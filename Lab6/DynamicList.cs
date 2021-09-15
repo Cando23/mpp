@@ -17,6 +17,20 @@ namespace Lab6
         {
             get { return _count; }
         }
+        public bool Add(T newItem)
+        {
+            try
+            {
+                Array.Resize(ref _array, _count+1);
+                _array[_count++] = newItem;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
         public IEnumerator<T> GetEnumerator()
         {
             return ((IEnumerable<T>) _array).GetEnumerator();
