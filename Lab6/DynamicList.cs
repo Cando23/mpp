@@ -17,6 +17,24 @@ namespace Lab6
         {
             get { return _count; }
         }
+        public T this[int index]
+        {
+            get
+            {
+                try
+                {
+                    return _array[index];
+                }
+                catch (IndexOutOfRangeException exception)
+                {
+                    throw new IndexOutOfRangeException(exception.Message);
+                }
+            }
+            set
+            {
+                _array[index] = value;
+            }
+        }
         public bool Add(T newItem)
         {
             try
