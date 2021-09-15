@@ -46,6 +46,21 @@ namespace Lab6
 
             return true;
         }
+        public bool RemoveAt(int index)
+        {
+            
+            try
+            {
+                _array = _array.Where((val, i) => index != i).ToArray();
+                _count--;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
         public IEnumerator<T> GetEnumerator()
         {
             return ((IEnumerable<T>) _array).GetEnumerator();
