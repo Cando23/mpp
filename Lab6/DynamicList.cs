@@ -61,6 +61,12 @@ namespace Lab6
 
             return true;
         }
+        public void Clear()
+        {
+            Array.Clear(_array, 0, _count);
+            Array.Resize(ref _array,0);
+            _count = 0;
+        }
         public IEnumerator<T> GetEnumerator()
         {
             return ((IEnumerable<T>) _array).GetEnumerator();
