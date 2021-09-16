@@ -8,15 +8,12 @@ namespace Lab6
     {
         public DynamicList()
         { 
-            _count = 0;
+            Count = 0;
             _array = new T[0];
         }
         private T[] _array;
-        private int _count;
-        public int Count
-        {
-            get { return _count; }
-        }
+        public int Count { get; private set; }
+
         public T this[int index]
         {
             get
@@ -30,17 +27,14 @@ namespace Lab6
                     throw new IndexOutOfRangeException(exception.Message);
                 }
             }
-            set
-            {
-                _array[index] = value;
-            }
+            set => _array[index] = value;
         }
         public bool Add(T newItem)
         {
             try
             {
-                Array.Resize(ref _array, _count+1);
-                _array[_count++] = newItem;
+                Array.Resize(ref _array, Count+1);
+                _array[Count++] = newItem;
             }
             catch (Exception)
             {
@@ -53,9 +47,9 @@ namespace Lab6
         {
             try
             {
-                int index = Array.IndexOf(_array, item);
+                var index = Array.IndexOf(_array, item);
                 _array = _array.Where((val, i) => i != index).ToArray();
-                _count--;
+                Count--;
             }
             catch (Exception)
             {
@@ -70,7 +64,7 @@ namespace Lab6
             try
             {
                 _array = _array.Where((val, i) => index != i).ToArray();
-                _count--;
+                Count--;
             }
             catch (Exception)
             {
@@ -81,9 +75,9 @@ namespace Lab6
         }
         public void Clear()
         {
-            Array.Clear(_array, 0, _count);
+            Array.Clear(_array, 0, Count);
             Array.Resize(ref _array,0);
-            _count = 0;
+            Count = 0;
         }
         public IEnumerator<T> GetEnumerator()
         {
