@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Threading;
 
 namespace Lab1
@@ -8,27 +8,41 @@ namespace Lab1
     {
         public delegate void TaskDelegate();
 
-        private readonly Thread[] _threads;
-        
+        private readonly ConcurrentQueue<TaskDelegate> _taskQueue;
         public TaskQueue(int count)
         {
-            _threads = new Thread[count];
+            _taskQueue = new ConcurrentQueue<TaskDelegate>();
+            var threads = new Thread[count];
             for(var i = 0; i < count; i++)
             {
-                _threads[i] = new Thread(task) {Name = "Name " + i};
-                _threads[i].Start();
+                threads[i] = new Thread(ProcessQueue) {Name = "Name " + i};
+                threads[i].Start();
             }
         }
-
-        private void task()
+        private void ProcessQueue()
         {
-            for (var i = 0; i < 2; i++)
+            while (true)
             {
-                var a = Thread.CurrentThread.Name;
-                Console.WriteLine(a);
-                Thread.Sleep(200);
+                _taskQueue.TryDequeue(out var task);
+                try
+                {
+                    task?.Invoke();
+                }
+                catch (ThreadAbortException)
+                {
+                    Thread.ResetAbort();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
         }
-
+        
+        public void EnqueueTask(TaskDelegate task)
+        { 
+            _taskQueue.Enqueue(task);
+        }
+        
     }
 }

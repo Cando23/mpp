@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Threading;
 
 namespace Lab1
 {
-    class Program
+    static class Program
     {
+        private static TaskQueue _taskQueue;
         static void Main(string[] args)
         { 
-            TaskQueue taskQueue = new TaskQueue(2);
+            _taskQueue = new TaskQueue(3);
             Console.ReadLine();
         }
     }
