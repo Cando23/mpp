@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-
-namespace Lab5
+﻿namespace Lab5
 {
    static class Program
     {
