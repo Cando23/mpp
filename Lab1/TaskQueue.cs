@@ -8,14 +8,14 @@ namespace Lab1
     {
         public delegate void TaskDelegate();
 
-        private readonly ConcurrentQueue<TaskDelegate> _taskQueue;
+        private readonly BlockingCollection<TaskDelegate> _taskQueue;
         public TaskQueue(int count)
         {
-            _taskQueue = new ConcurrentQueue<TaskDelegate>();
+            _taskQueue = new BlockingCollection<TaskDelegate>();
             var threads = new Thread[count];
             for(var i = 0; i < count; i++)
             {
-                threads[i] = new Thread(ProcessQueue) {Name = "Name " + i};
+                threads[i] = new Thread(ProcessQueue);
                 threads[i].Start();
             }
         }
@@ -23,14 +23,10 @@ namespace Lab1
         {
             while (true)
             {
-                _taskQueue.TryDequeue(out var task);
+                var task = _taskQueue.Take();
                 try
                 {
                     task?.Invoke();
-                }
-                catch (ThreadAbortException)
-                {
-                    Thread.ResetAbort();
                 }
                 catch (Exception ex)
                 {
@@ -41,7 +37,7 @@ namespace Lab1
         
         public void EnqueueTask(TaskDelegate task)
         { 
-            _taskQueue.Enqueue(task);
+            _taskQueue.Add(task);
         }
         
     }
