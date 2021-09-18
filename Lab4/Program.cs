@@ -26,8 +26,12 @@ namespace Lab4
 
         private static void Main(string[] args)
         {
-            Console.WriteLine("Input path to Dll file");
-            var path = Console.ReadLine();
+            if (args.Length < 1)
+            {
+                return;
+            }
+            var path = args[0];
+            path = path.Replace("\"","/");
             try
             {
                 GetTypes(path);
