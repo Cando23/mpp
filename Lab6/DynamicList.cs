@@ -27,8 +27,12 @@ namespace Lab6
                     throw new IndexOutOfRangeException(exception.Message);
                 }
             }
-            set => _array[index] = value;
+            set { 
+                _array[index] = value;
+                Count++;
+            }
         }
+
         public bool Add(T newItem)
         {
             try
@@ -79,14 +83,15 @@ namespace Lab6
             Array.Resize(ref _array,0);
             Count = 0;
         }
+
         public IEnumerator<T> GetEnumerator()
         {
-            return ((IEnumerable<T>) _array).GetEnumerator();
+            return _array.AsEnumerable().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable<T>) _array).GetEnumerator();
+            return _array.GetEnumerator();
         }
     }
     
