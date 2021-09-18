@@ -11,16 +11,6 @@ namespace Lab2
         private readonly Thread[] _threads;
 
         private readonly BlockingCollection<TaskDelegate> _taskQueue;
-
-        public bool IsCompleted()
-        {
-            foreach (var thread in _threads)
-            {
-                if (thread.ThreadState == ThreadState.Running)
-                    return false;
-            }
-            return true;
-        }
         public TaskQueue(int count)
         {
             _taskQueue = new BlockingCollection<TaskDelegate>();
