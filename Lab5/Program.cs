@@ -8,6 +8,8 @@ namespace Lab5
         {
             TaskQueue.TaskDelegate[] array =  {Display, Factorial, Cycle};
             Parallel.WaitAll(array);
+            Console.ReadLine();
+            
         }
         static void Display()
         {

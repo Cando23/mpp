@@ -9,7 +9,7 @@ namespace Lab5
     {
         public delegate void TaskDelegate();
 
-        private bool _Working = true;
+        private bool _working = true;
         private Thread[] _threads;
         private readonly Queue<TaskDelegate> _taskQueue;
 
@@ -26,7 +26,7 @@ namespace Lab5
 
         private void ProcessQueue()
         {
-            while (_Working)
+            while (_working)
             {
                 TaskDelegate task = null;
                 if (_taskQueue.Count > 0)
@@ -67,7 +67,7 @@ namespace Lab5
             {
                 Thread.Sleep(100);
             }
-            _Working = false;
+            _working = false;
         }
     }
 }

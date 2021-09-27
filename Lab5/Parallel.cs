@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-
 namespace Lab5
 {
     public class Parallel
