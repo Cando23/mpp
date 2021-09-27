@@ -34,7 +34,6 @@ namespace Lab2
                         if (_taskQueue.Count > 0)
                             task = _taskQueue.Dequeue();
                     }
-
                     task?.Invoke();
                 }
             }
