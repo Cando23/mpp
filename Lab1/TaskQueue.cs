@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 
 namespace Lab1
@@ -9,7 +7,7 @@ namespace Lab1
     {
         public delegate void TaskDelegate();
 
-        private bool _Working = true;
+        private bool _working = true;
         private Thread[] _threads;
         private readonly Queue<TaskDelegate> _taskQueue;
 
