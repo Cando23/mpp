@@ -14,7 +14,7 @@ namespace Lab5
             {
                 TaskQueue.EnqueueTask(task);
             }
-            while (!TaskQueue.IsCompleted()){Thread.Sleep(100);}
+            TaskQueue.Stop();
             Console.WriteLine("Computing ended!");
         }
     }
