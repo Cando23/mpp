@@ -55,7 +55,7 @@ namespace Lab6
 
         public void RemoveAt(int index)
         {
-            if (index > Count || index < Count)
+            if (_count == 0 || index >= _count || index < 0)
                 throw new ArgumentOutOfRangeException();
             _array = _array.Where((val, i) => index != i).ToArray();
             _count--;

@@ -18,7 +18,7 @@ namespace Lab6
         {
             List = new DynamicList<bool>
             {
-             true
+             true,false
             };
             List.RemoveAt(5);
             Output();
