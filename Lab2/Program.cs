@@ -60,8 +60,7 @@ namespace Lab2
             CopyInfo copyInfo = Copy(source, destination);
             Console.WriteLine($"Directories copied: {copyInfo.Directories}");
             Console.WriteLine($"Files copied: {copyInfo.Files}");
-            Console.ReadLine();
-            _taskQueue.Stop();
+            _taskQueue.Dispose();
         }
     }
 }
