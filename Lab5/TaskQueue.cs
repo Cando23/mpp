@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 
 namespace Lab5
 {
-    public class TaskQueue
+    public class TaskQueue :IDisposable
     {
         public delegate void TaskDelegate();
-
         private bool _working = true;
         private Thread[] _threads;
         private readonly Queue<TaskDelegate> _taskQueue;
@@ -53,7 +51,7 @@ namespace Lab5
             }
         }
 
-        public bool Working()
+        public bool Empty()
         {
             lock (_taskQueue)
             {
@@ -61,13 +59,35 @@ namespace Lab5
             }
         }
 
-        public void Stop()
+        private bool _disposed;
+        
+        public void Dispose()
         {
-            while (!Working())
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+ 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
             {
-                Thread.Sleep(100);
+                if (disposing)
+                {
+                    while (true)
+                    {
+                        if (Empty())
+                            break;
+                        Thread.Sleep(1000);
+                    }
+                    _working = false;
+                }
+                _disposed = true;
             }
-            _working = false;
+        }
+        
+        ~TaskQueue()
+        {
+            Dispose (false);
         }
     }
 }
