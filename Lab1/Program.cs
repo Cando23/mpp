@@ -24,7 +24,9 @@ namespace Lab1
             _taskQueue.EnqueueTask(TaskForThread);
             _taskQueue.EnqueueTask(TaskForThread);
             _taskQueue.EnqueueTask(TaskForThread);
-            _taskQueue.Stop();
+            _taskQueue.EnqueueTask(TaskForThread);
+            _taskQueue.EnqueueTask(TaskForThread);
+            _taskQueue.Dispose();
         }
     }
 }
