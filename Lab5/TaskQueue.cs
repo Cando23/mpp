@@ -2,7 +2,7 @@
     using System.Collections.Generic;
     using System.Threading;
 
-    namespace Lab1
+    namespace Lab5
     {
         public class TaskQueue :IDisposable
         {
