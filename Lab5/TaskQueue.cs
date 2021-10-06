@@ -1,77 +1,72 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿    using System;
+    using System.Collections.Generic;
+    using System.Threading;
 
-namespace Lab5
-{
-    public class TaskQueue :IDisposable
+    namespace Lab1
     {
-        public delegate void TaskDelegate();
-        private bool _working = true;
-        private Thread[] _threads;
-        private readonly Queue<TaskDelegate> _taskQueue;
-
-        public TaskQueue(int count)
+        public class TaskQueue :IDisposable
         {
-            _taskQueue = new Queue<TaskDelegate>();
-            _threads = new Thread[count];
-            for (var i = 0; i < count; i++)
+            public delegate void TaskDelegate();
+
+            private bool _working = true;
+            private Thread[] _threads;
+            private readonly Queue<TaskDelegate> _taskQueue;
+
+            public TaskQueue(int count)
             {
-                _threads[i] = new Thread(ProcessQueue);
-                _threads[i].Start();
+                _taskQueue = new Queue<TaskDelegate>();
+                _threads = new Thread[count];
+                for (var i = 0; i < count; i++)
+                {
+                    _threads[i] = new Thread(ProcessQueue);
+                    _threads[i].Start();
+                }
             }
-        }
 
-        private void ProcessQueue()
-        {
-            while (_working)
+            private void ProcessQueue()
             {
-                TaskDelegate task = null;
-                if (_taskQueue.Count > 0)
+                while (_working)
+                {
+                    TaskDelegate task = null;
+                    if (_taskQueue.Count > 0)
+                    {
+                        lock (_taskQueue)
+                        {
+                            if (_taskQueue.Count > 0)
+                                task = _taskQueue.Dequeue();
+                        }
+
+                        task?.Invoke();
+                    }
+                }
+            }
+
+            public void EnqueueTask(TaskDelegate task)
+            {
+                if (_disposed)
+                    throw new ObjectDisposedException(ToString());
+                if (task != null)
                 {
                     lock (_taskQueue)
                     {
-                        if (_taskQueue.Count > 0)
-                            task = _taskQueue.Dequeue();
+                        _taskQueue.Enqueue(task);
                     }
-
-                    task?.Invoke();
                 }
             }
-        }
 
-        public void EnqueueTask(TaskDelegate task)
-        {
-            if (task != null)
+            private bool Empty()
             {
                 lock (_taskQueue)
                 {
-                    _taskQueue.Enqueue(task);
+                    return _taskQueue.Count == 0;
                 }
             }
-        }
 
-        public bool Empty()
-        {
-            lock (_taskQueue)
+            private bool _disposed;
+            
+            public void Dispose()
             {
-                return _taskQueue.Count == 0;
-            }
-        }
-
-        private bool _disposed;
-        
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
- 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
+                if (!_disposed)
                 {
                     while (true)
                     {
@@ -80,14 +75,8 @@ namespace Lab5
                         Thread.Sleep(1000);
                     }
                     _working = false;
+                    _disposed = true;
                 }
-                _disposed = true;
             }
         }
-        
-        ~TaskQueue()
-        {
-            Dispose (false);
-        }
     }
-}
