@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 namespace Lab6
 {
@@ -12,25 +13,14 @@ namespace Lab6
             }
             Console.WriteLine(new string('-', 30));
         }
-        public static DynamicList<bool> List;
+        public static DynamicList<int> List;
        
         static void Main(string[] args)
         {
-            List = new DynamicList<bool>
-            {
-             true,false
-            };
-            List.RemoveAt(5);
+            List = new DynamicList<int>();
+            List.Add(4);
             Output();
-            List[0] = false;
-            Output();
-            List.Remove(true);
-            Output();
-            List.Add(true);
-            List.RemoveAt(4);
-            Output();
-            Console.WriteLine(List[0].ToString());
-            List.Clear();
+            List.Remove(4);
             Output();
         }
     }

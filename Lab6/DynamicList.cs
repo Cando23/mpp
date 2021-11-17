@@ -32,8 +32,14 @@ namespace Lab6
             }
             set
             {
-                _array[index] = value;
-                _count++;
+                try
+                {
+                    _array[index] = value;
+                }
+                catch (IndexOutOfRangeException exception)
+                {
+                    throw new IndexOutOfRangeException(exception.Message);
+                }
             }
         }
 
@@ -70,12 +76,15 @@ namespace Lab6
 
         public IEnumerator<T> GetEnumerator()
         {
-            return _array.AsEnumerable().GetEnumerator();
+            for (var i = 0; i < _count; i++)
+                yield return _array[i];
         }
+        //return _array.AsEnumerable().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _array.GetEnumerator();
+            for (var i = 0; i < _count; i++)
+                yield return _array[i];
         }
     }
 }
