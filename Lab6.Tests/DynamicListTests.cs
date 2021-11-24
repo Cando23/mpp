@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using Moq;
 using Xunit;
 
-public interface IDynamicList
-{
-    void Add(int newItem);
-    bool Remove(int item);
-    void RemoveAt(int index);
-    void Clear();
-    IEnumerator<int> GetEnumerator();
-}
    namespace Lab6.Tests
     {
         public class DynamicListTests
