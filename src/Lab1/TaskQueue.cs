@@ -2,19 +2,18 @@
     using System.Collections.Generic;
     using System.Threading;
 
-    namespace Lab2
+    namespace Lab1
     {
-        public class TaskQueue :IDisposable
+        public class TaskQueue :ITaskQueue
         {
-            public delegate void TaskDelegate();
-
             private bool _working = true;
             private Thread[] _threads;
-            private readonly Queue<TaskDelegate> _taskQueue;
+            private readonly Queue<ITaskQueue.TaskDelegate> _taskQueue;
+            private bool _disposed;
 
             public TaskQueue(int count)
             {
-                _taskQueue = new Queue<TaskDelegate>();
+                _taskQueue = new Queue<ITaskQueue.TaskDelegate>();
                 _threads = new Thread[count];
                 for (var i = 0; i < count; i++)
                 {
@@ -27,7 +26,7 @@
             {
                 while (_working)
                 {
-                    TaskDelegate task = null;
+                    ITaskQueue.TaskDelegate task = null;
                     if (_taskQueue.Count > 0)
                     {
                         lock (_taskQueue)
@@ -41,7 +40,7 @@
                 }
             }
 
-            public void EnqueueTask(TaskDelegate task)
+            public void EnqueueTask(ITaskQueue.TaskDelegate task)
             {
                 if (_disposed)
                     throw new ObjectDisposedException(ToString());
@@ -58,11 +57,11 @@
             {
                 lock (_taskQueue)
                 {
+                    if (_threads.Length == 0)
+                        return true;
                     return _taskQueue.Count == 0;
                 }
             }
-
-            private bool _disposed;
             
             public void Dispose()
             {

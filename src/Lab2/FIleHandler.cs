@@ -1,18 +1,18 @@
 ﻿using System;
 using System.IO;
+using Lab1;
 
 namespace Lab2
 {
-    public class CopyInfo
+    public class FileHandler:IDisposable
     {
-        public int Files { get; set; }
-        public int Directories { get; set; }
-    }
-    class Program
-    {
-        private static TaskQueue _taskQueue;
+        public FileHandler(ITaskQueue taskQueue)
+        {
+            _taskQueue = taskQueue;
+        }
+        private ITaskQueue _taskQueue;
         
-        private static void CopyFiles(string[] files, string destination)
+        private void CopyFiles(string[] files, string destination)
         {
             foreach (string file in files )
             {
@@ -24,7 +24,7 @@ namespace Lab2
             }
         }
 
-        private static CopyInfo Copy(string source, string destination)
+        public CopyInfo Copy(string source, string destination)
         {
             var copyInfo = new CopyInfo();
             var files = Directory.GetFiles(source);
@@ -44,22 +44,9 @@ namespace Lab2
             }
             return copyInfo;
         }
-        static void Main(string[] args)
+
+        public void Dispose()
         {
-            if (args.Length != 2)
-            {
-                return;
-            }
-            var source = args[0];
-            var destination = args[1];
-            /*Console.Write("Source: ");
-            var source = Console.ReadLine();
-            Console.Write("Destination: ");
-            var destination = Console.ReadLine();*/
-            _taskQueue = new TaskQueue(5);
-            CopyInfo copyInfo = Copy(source, destination);
-            Console.WriteLine($"Directories copied: {copyInfo.Directories}");
-            Console.WriteLine($"Files copied: {copyInfo.Files}");
             _taskQueue.Dispose();
         }
     }

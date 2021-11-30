@@ -48,7 +48,7 @@ namespace Lab6
             Array.Resize(ref _array, Count + 1);
             _array[_count++] = newItem;
         }
-
+        
         public bool Remove(T item)
         {
             var index = Array.IndexOf(_array, item);

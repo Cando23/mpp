@@ -14,19 +14,15 @@ namespace Lab1
                 Thread.Sleep(50);
             }
         }
-
-        private static TaskQueue _taskQueue;
-
         static void Main()
         {
-            _taskQueue = new TaskQueue(3);
-            _taskQueue.EnqueueTask(TaskForThread);
-            _taskQueue.EnqueueTask(TaskForThread);
-            _taskQueue.EnqueueTask(TaskForThread);
-            _taskQueue.EnqueueTask(TaskForThread);
-            _taskQueue.EnqueueTask(TaskForThread);
-            _taskQueue.EnqueueTask(TaskForThread);
-            _taskQueue.Dispose();
+            using var taskQueue = new TaskQueue(3);
+            taskQueue.EnqueueTask(TaskForThread);
+            taskQueue.EnqueueTask(TaskForThread);
+            taskQueue.EnqueueTask(TaskForThread);
+            taskQueue.EnqueueTask(TaskForThread);
+            taskQueue.EnqueueTask(TaskForThread);
+            taskQueue.EnqueueTask(TaskForThread);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Lab1;
 
 namespace Lab5
 {
@@ -7,7 +8,7 @@ namespace Lab5
     {
         static void Main(string[] args)
         {
-            TaskQueue.TaskDelegate[] array =
+            ITaskQueue.TaskDelegate[] array =
                 {Display, Factorial, Cycle, Display, Factorial, Cycle, Display, Factorial, Cycle};
             Parallel.WaitAll(array);
             Test();
@@ -15,7 +16,7 @@ namespace Lab5
 
         static void Test()
         {
-            TaskQueue.TaskDelegate[] array = {Display, Factorial, Cycle};
+            ITaskQueue.TaskDelegate[] array = {Display, Factorial, Cycle};
             Parallel.WaitAll(array);
         }
 

@@ -8,6 +8,18 @@ using Xunit;
         public class DynamicListTests
         {
             [Fact]
+            public void GetEnumerator_ReturnsSameItems()
+            {
+                var mock = new Mock<IEnumerable<int>>();
+                var list = new DynamicList<int> {0, 1, 2, 3, 4};
+                mock.Setup(i => i.GetEnumerator()).Returns(list.GetEnumerator());
+                var expected = 0;
+                foreach (var item in mock.Object)
+                {
+                    Assert.Equal(expected++, item);
+                }
+            }
+            [Fact]
             public void Indexer_ReturnsSameItem()
             {
                 var list = new DynamicList<int> {1};
@@ -20,18 +32,6 @@ using Xunit;
                 var list = new DynamicList<int> ();
                 Assert.Throws<IndexOutOfRangeException>(() => list[1]);
                 Assert.Throws<IndexOutOfRangeException>(() => list[1] = 2);
-            }
-
-            [Fact]
-            public void GetEnumerator_ReturnsSameList()
-            {
-                var list = new DynamicList<int> {1, 2, 3, 4};
-                var actualList = new DynamicList<int>();
-                foreach (var item in list)
-                {
-                    actualList.Add(item);
-                }
-                Assert.Equal(list, actualList);
             }
 
             [Fact]
