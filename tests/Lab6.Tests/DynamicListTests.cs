@@ -10,11 +10,10 @@ namespace Lab6.Tests
         [Fact]
         public void GetEnumerator_ReturnsSameItems()
         {
-            var mock = new Mock<IEnumerable<int>>();
             var list = new DynamicList<int> { 1, 2, 3, 4 };
-            mock.Setup(i => i.GetEnumerator()).Returns(list.GetEnumerator());
+            var stub = Mock.Of<IEnumerable<int>>(i => i.GetEnumerator() == list.GetEnumerator());
             var expected = 1;
-            foreach (var item in mock.Object)
+            foreach (var item in stub)
             {
                 Assert.Equal(expected++, item);
             }
