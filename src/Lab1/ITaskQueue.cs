@@ -2,7 +2,7 @@
 
 namespace Lab1
 {
-    public interface ITaskQueue :IDisposable
+    public interface ITaskQueue : IDisposable
     {
         public delegate void TaskDelegate();
 

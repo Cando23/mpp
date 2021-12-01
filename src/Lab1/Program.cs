@@ -14,6 +14,7 @@ namespace Lab1
                 Thread.Sleep(50);
             }
         }
+
         static void Main()
         {
             using var taskQueue = new TaskQueue(3);

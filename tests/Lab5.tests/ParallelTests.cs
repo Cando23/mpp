@@ -3,9 +3,9 @@ using Lab1;
 using Moq;
 using Xunit;
 using System.Linq;
+
 namespace Lab5.tests
 {
-
     public class ParallelTests
     {
         [Fact]

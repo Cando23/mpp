@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using Moq;
 using Xunit;
+
 namespace Lab1.Tests
 {
     public class TaskQueueTests
@@ -13,8 +14,9 @@ namespace Lab1.Tests
             using var queue = new TaskQueue(1);
             queue.EnqueueTask(mock.Object);
             Thread.Sleep(100);
-            mock.Verify(f => f(),Times.Once);
+            mock.Verify(f => f(), Times.Once);
         }
+
         [Fact]
         public void ProcessQueue_CallsTaskDelegate_Never()
         {

@@ -11,6 +11,7 @@ namespace Lab3
          * то оригинальное значение location1 - результат функции.
          */
         private int _locationId = -1;
+
         public void Lock()
         {
             var id = Thread.CurrentThread.ManagedThreadId;

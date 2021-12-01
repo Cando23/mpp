@@ -15,15 +15,19 @@ namespace Lab5
             var taskCount = tasks.Length;
             foreach (var task in tasks)
             {
-                taskQueue.EnqueueTask(()=>{
-                task();
-                CompleteTask(ref taskCount, signal);
+                taskQueue.EnqueueTask(() =>
+                {
+                    task();
+                    CompleteTask(ref taskCount, signal);
                 });
             }
+
             signal.WaitOne();
             Console.WriteLine("Computing ended!");
         }
-        private static void CompleteTask(ref int taskCount,  EventWaitHandle signal) {
+
+        private static void CompleteTask(ref int taskCount, EventWaitHandle signal)
+        {
             if (Interlocked.Decrement(ref taskCount) == 0)
             {
                 signal.Set();

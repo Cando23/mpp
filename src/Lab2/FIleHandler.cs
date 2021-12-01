@@ -4,23 +4,21 @@ using Lab1;
 
 namespace Lab2
 {
-    public class FileHandler:IDisposable
+    public class FileHandler : IDisposable
     {
         public FileHandler(ITaskQueue taskQueue)
         {
             _taskQueue = taskQueue;
         }
+
         private ITaskQueue _taskQueue;
-        
+
         private void CopyFiles(string[] files, string destination)
         {
-            foreach (string file in files )
+            foreach (string file in files)
             {
                 var fileInfo = new FileInfo(file);
-                _taskQueue.EnqueueTask(() =>
-                {
-                    fileInfo.CopyTo(destination + "/" + Path.GetFileName(file));
-                });
+                _taskQueue.EnqueueTask(() => { fileInfo.CopyTo(destination + "/" + Path.GetFileName(file)); });
             }
         }
 
@@ -35,6 +33,7 @@ namespace Lab2
                 Directory.CreateDirectory(destination);
                 copyInfo.Directories = 1;
             }
+
             CopyFiles(files, destination);
             foreach (var directory in directories)
             {
@@ -42,6 +41,7 @@ namespace Lab2
                 copyInfo.Directories += result.Directories;
                 copyInfo.Files += result.Files;
             }
+
             return copyInfo;
         }
 
